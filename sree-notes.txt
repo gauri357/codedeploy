@@ -1,0 +1,109 @@
+
+
+Roles
+	CodeDeploy  (EC2 SERVICE ROLE) Allows EC2 instances to call AWS services on your behalf.
+		Create Policy CodeDeploy
+			{
+			  "Version": "2012-10-17",
+			  "Statement": [
+			    {
+			      "Action": [
+			        "autoscaling:PutLifecycleHook",
+			        "autoscaling:DeleteLifecycleHook",
+			        "autoscaling:RecordLifecycleActionHeartbeat",
+			        "autoscaling:CompleteLifecycleAction",
+			        "autoscaling:DescribeAutoscalingGroups",
+			        "autoscaling:PutInstanceInStandby",
+			        "autoscaling:PutInstanceInService",
+			        "ec2:Describe*"
+			      ],
+			      "Effect": "Allow",
+			      "Resource": "*"
+			    }
+			  ]
+			}
+		REFRESH and ATTACH to the ROLE
+		EDIT TRUST RELATIONSHIP
+		{
+		  "Version": "2012-10-17",
+		  "Statement": [
+		    {
+		      "Sid": "",
+		      "Effect": "Allow",
+		      "Principal": {
+		        "Service": [
+		          "codedeploy.us-west-2.amazonaws.com",
+		          "codedeploy.us-east-1.amazonaws.com",
+		          "codedeploy.ap-south-1.amazonaws.com"
+		        ]
+		      },
+		      "Action": "sts:AssumeRole"
+		    }
+		  ]
+		}
+
+	EC2CodeDeploy Role
+		// Instance Role for EC2 Instance
+			{ 
+			    "Version": "2012-10-17", 
+			    "Statement": [   
+			      {     
+			          "Action": [       
+			              "s3:Get*",       
+			              "s3:List*"     
+			          ],     
+			          "Effect": "Allow",     
+			          "Resource": "*"   
+			      } 
+			    ]
+			}
+
+Create Instance Amazon AMI ami-b46f48db
+	EC2CodeDeploy Instance Profile
+
+Login
+
+yum -y update
+
+yum install -y aws-cli
+
+cd /home/ec2-user
+
+2.) Here you will setup your AWS access, secret, and region.
+
+aws configure 
+
+aws s3 cp s3://aws-codedeploy-us-east-1/latest/install . --region us-east-1
+aws s3 cp s3://aws-codedeploy-us-east-1/latest/install . --region ap-south-1
+
+chmod +x ./install
+
+3.) This is simply a quick hack to get the agent running faster.
+
+sed -i "s/sleep(.*)/sleep(10)/" install 
+
+./install auto
+
+4.) Verify it is running.
+
+service codedeploy-agent status 
+ The AWS CodeDeploy agent is running as PID 8252
+
+
+Install Apache and PHP
+
+Tag the instance uniquly
+
+https://github.com/schogini/opsworks.git
+
+Create CodeDeploy
+
+aws deploy push --application-name <MyAppName> \
+      --s3-location s3://<MyBucketName>/<MyNewAppBundleName> \
+      --source <PathToMyBundle>
+
+
+
+
+
+

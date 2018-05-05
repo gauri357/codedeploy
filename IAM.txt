@@ -29,7 +29,8 @@
       "Principal": {
         "Service": [
           "codedeploy.us-west-2.amazonaws.com",
-          "codedeploy.us-east-1.amazonaws.com"
+          "codedeploy.us-east-1.amazonaws.com",
+          "codedeploy.ap-south-1.amazonaws.com"
         ]
       },
       "Action": "sts:AssumeRole"
