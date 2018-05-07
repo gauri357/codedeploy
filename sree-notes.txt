@@ -148,7 +148,40 @@ aws deploy push --application-name <MyAppName> \
 
 
 
+aws deploy create-application --application-name demo-app
+
+SreeMacMin16GB:codedeploy sree$ aws deploy delete-application --application-name demo-app
+SreeMacMin16GB:codedeploy sree$ aws deploy --region ap-south-1 create-application --application-name demo-app
+{
+    "applicationId": "d7aacbb2-2dbe-4cb2-83a0-3cb548375ccd"
+}
+
+
+SreeMacMin16GB:codedeploy sree$ aws iam list-roles| grep CodeDeploy
+            "RoleName": "CodeDeploy",
+            "Arn": "arn:aws:iam::504881750319:role/CodeDeploy",
+            "RoleName": "EC2CodeDeploy",
+            "Arn": "arn:aws:iam::504881750319:role/EC2CodeDeploy",
+
+
+aws deploy --region ap-south-1 create-deployment-group --application-name demo-app --deployment-group-name dg2 \
+--service-role-arn arn:aws:iam::504881750319:role/CodeDeploy \
+--ec2-tag-filters Key=Name,Value=Demo-CodeDeploy-Prod,Type=KEY_AND_VALUE
+{
+    "deploymentGroupId": "8e25a661-215a-4bb8-9a3b-026ef2a51f38"
+}
 
 
 
+aws deploy --region ap-south-1 register-application-revision --application-name demo-app \
+--description "Revised Demo application" \
+--github-location repository=schogini/codedeploy,commitId=62f734f49007e93bdc7416d8f8f5588a0d545597
+
+
+aws deploy --region ap-south-1 create-deployment --application-name demo-app \
+--deployment-group-name dg2 \
+--github-location repository=schogini/codedeploy,commitId=62f734f49007e93bdc7416d8f8f5588a0d545597
+{
+    "deploymentId": "d-O888BCY6R"
+}
 
