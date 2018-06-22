@@ -28,7 +28,7 @@ $vpcr = curl_exec($curl_handle);
 curl_setopt($curl_handle,CURLOPT_URL,'http://169.254.169.254/latest/meta-data/placement/availability-zone');
 $az = curl_exec($curl_handle);
 ?>
-<h1>Hello From Apache+PHP May 12</h1>
+<h1>Hello From Apache+PHP World Bank</h1>
 <h1>THIS IS A COMMAND LINE TRIAL OF CODEDEPLOY</h1>
 <h2>Public IP: <?php echo $pubip;?></h2> 
 <h2>Private IP: <?php echo $privip;?></h2> 
